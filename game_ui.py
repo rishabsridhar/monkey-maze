@@ -1,6 +1,7 @@
 import pygame
 import game_logic
 import time
+from levels import get_level
 
 _FRAME_RATE = 60
 _DELAY = 500
@@ -30,14 +31,15 @@ class MonkeyMaze:
             'O':pygame.image.load('sprites/rock.png'),
             '*':pygame.image.load('sprites/diamond.png'),
             '@':pygame.image.load('sprites/monkey.png'),
-            'X':pygame.image.load('sprites/exit.png'),
+            'X':pygame.image.load('sprites/empty.png'), #exit
             '':pygame.image.load('sprites/empty.png'),
-            ' ':pygame.image.load('sprites/empty.png')
+            ' ':pygame.image.load('sprites/empty.png'),
+            'Y':pygame.image.load('sprites/exit.png'),
+            'C':pygame.image.load('sprites/crab.png')
         }
 
     def _setup_board(self):
-        self._gamestate.random_add('O', 5)
-        self._gamestate.random_add('*', 8)
+        self._gamestate.update_field()
 
     def _make_surface(self, size=_SIZE):
         self._surface = pygame.display.set_mode(_SIZE)
@@ -90,7 +92,7 @@ class MonkeyMaze:
             elif event.key == pygame.K_RIGHT:
                 vector = ('x', 1)
             elif event.key == pygame.K_r:
-                self._gamestate.reset_board()
+                self._gamestate.die()
             self._gamestate.move_player(vector)
 
             
